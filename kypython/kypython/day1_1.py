@@ -26,7 +26,4 @@ for line in output_list:
 
 new_out_num = [int(x) for x in new_out_list]
 answer = sum(new_out_num)
-print(answer)
-        
-
-
+print(answer)    
