@@ -26,10 +26,7 @@ def get_color(line, regex=None, limit=RED):
     finder = [int(x) for x in lines if int(x) <= limit]
     check_f = len(finder)
     check_l = len(lines)
-    if check_f == check_l:
-        return True
-    else:
-        return False
+    return bool(check_f == check_l)
 
 for line in contents:
     red_answer = get_color(line=line, regex=red_regex, limit=RED)
