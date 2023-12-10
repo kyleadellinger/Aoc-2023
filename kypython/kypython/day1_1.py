@@ -3,7 +3,7 @@ import string
 # get the two numbers from given string
 # these combined are the numbers, then find sum of these numbers
 
-with open("./data/day1_1", "r") as ofile:
+with open("./data/day1", "r") as ofile:
     contents = ofile.readlines()
 
 numbers = [x for x in string.digits]
