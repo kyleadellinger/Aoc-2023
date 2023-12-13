@@ -1,6 +1,15 @@
 
-with open("./data/day1", "r") as ofile:
-    ocontents = ofile.readlines()
+from pathlib import Path
+
+import re
+
+data_dir = Path(r"C:\Users\kylea\OneDrive\Documents\AdventofCode\Aoc-2023\data")
+file = data_dir / "day1"
+
+write_out = data_dir / "my-output.txt"
+
+with open(file, "r") as ofile:
+    contents = ofile.readlines()
 
 numbers = ["1","2","3","4","5","6","7","8","9"]
 
@@ -16,38 +25,58 @@ banker = {
     "five": "5",
     "four": "4",
     "three": "3",
+    "twone": "21",
     "two": "2",
     "one": "1"
 }
 
-examples = ["two1nine","eightwothree","abcone2threexyz","xtwone3four","4nineeightseven2","zoneight234","7pqrstsixteen","oneight","8fournine3svdlh5sevenoneighttsq"]
+examples = ["two1nine","eightwothree","abcone2threexyz","xtwone3four","4nineeightseven2","zoneight234","7pqrstsixteen"]
 
-contents = ocontents[195:198]
-first_output = []
-for line in contents:
-    for x in banker:
-        if x in line.strip():
-            line = line.replace(x, banker.get(x))
-    first_output.append(line.strip())
+good_to_gos = [x for x in contents if any(k in x for k in banker)]
+# digest this
+
+catcher = re.compile(r"sevenine")
+questionables = []
+for place, line in enumerate(contents):
+    if catcher.findall(line) != []:
+        print(catcher.findall(line), place)
 
 
-second_output = []
-for line in first_output:
+def word_replacer(file, bank):
+    output_list = []
+    for line in file:
+        for word in bank:
+            if word in line:
+                line = line.strip().replace(word, bank.get(word))
+        output_list.append(line)
+    return output_list
+
+def one_line_word_replacer(line, bank):
+    output = []
+    for word in bank:
+        if word in line:
+            line = line.replace(word, bank.get(word))
+    output.append(line.strip())
+    return output
+
+def one_line_number(list_of_one):
     temp = ""
-    for x in line:
-        if x in numbers:
-            temp += x
-    second_output.append(temp)
+    for x in list_of_one[0]:
+        if x.isalpha():
+            pass
+        else:
+            temp += x 
+    return temp
 
-first_last = []
-for line in second_output:
-    temp = line[0] + line[-1]
-    first_last.append(int(temp))
+def first_last(string):
+    return string[0] + string[-1]
 
-for x, y, z in zip(contents, first_output, first_last):
-    print(x.strip(), y, z)
-print(first_output)
-print(second_output)
-print(first_last)
-print(sum(first_last))
+x = 647
+print(f"Untouched: {contents[x].strip()}")
+output_list = one_line_word_replacer(contents[x], banker)
+print(output_list)
+no_letters = one_line_number(output_list)
+print(no_letters)
+fl = first_last(no_letters)
+print(fl)
 
